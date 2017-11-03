@@ -1,7 +1,7 @@
 plugins {
     id "org.jetbrains.kotlin.jvm" version "1.1.1"
     id "org.jetbrains.kotlin.kapt" version "1.1.1"
-    id "com.qixalite.spongestart" version "1.6.2"
+    id "com.qixalite.spongestart2" version "3.0.1"
     id "com.github.johnrengelman.shadow" version "1.2.4"
 }
 
@@ -14,11 +14,6 @@ repositories {
     maven { url "https://jitpack.io" }
 }
 
-spongestart {
-    eula true
-    spongeForgeVersion "1.10.2-2254-5.2.0-BETA-2259"
-}
-
 configurations {
     compile.extendsFrom shadow
     compile.extendsFrom kapt
@@ -27,13 +22,15 @@ configurations {
 dependencies {
     shadow "org.jetbrains.kotlin:kotlin-stdlib-jre8:1.1.1"
     kapt "org.spongepowered:spongeapi:5.1.0"
-    shadow("com.github.randombyte-developer.kosp:kosp:v0.3.12") { transitive = false }
+    shadow("com.github.randombyte-developer.kosp:kosp:v0.5.4.1") { transitive = false }
+}
+
+spongestart {
+    minecraft "1.10.2"
 }
 
 shadowJar {
     configurations = [project.configurations.shadow]
-
-    exclude "StartServer*.*"
 
     relocate "kotlin", "de.randombyte.byteitems.shaded.kotlin"
     relocate "de.randombyte.kosp", "de.randombyte.byteitems.shaded.kosp"
