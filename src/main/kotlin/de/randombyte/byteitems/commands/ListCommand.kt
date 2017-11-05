@@ -10,11 +10,9 @@ import org.spongepowered.api.item.inventory.ItemStackSnapshot
 import org.spongepowered.api.service.pagination.PaginationService
 import org.spongepowered.api.text.action.TextActions
 
-internal class ListCommand(
-        val getAllItemStacks: () -> Map<String, ItemStackSnapshot>
-) : PlayerExecutedCommand() {
+internal class ListCommand(val items: Map<String, ItemStackSnapshot>) : PlayerExecutedCommand() {
     override fun executedByPlayer(player: Player, args: CommandContext): CommandResult {
-        val texts = getAllItemStacks().toSortedMap().map { (id, itemStackSnapshot) ->
+        val texts = items.toSortedMap().map { (id, itemStackSnapshot) ->
             "- '$id': ${itemStackSnapshot.type.id} ".toText() +
                     "[Give] ".yellow().action(TextActions.suggestCommand("/byteItems give ${player.name} \"$id\"")) +
                     "[Delete]".red().action(TextActions.suggestCommand("/byteItems delete \"$id\""))

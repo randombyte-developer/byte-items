@@ -11,10 +11,7 @@ import org.spongepowered.api.data.type.HandTypes
 import org.spongepowered.api.entity.living.player.Player
 import org.spongepowered.api.item.inventory.ItemStackSnapshot
 
-internal class SaveCommand(
-        val saveItemStack: (id: String, ItemStackSnapshot) -> Boolean,
-        val updateCommands: () -> Unit
-) : PlayerExecutedCommand() {
+internal class SaveCommand(val saveItemStack: (id: String, ItemStackSnapshot) -> Boolean) : PlayerExecutedCommand() {
     override fun executedByPlayer(player: Player, args: CommandContext): CommandResult {
         val id = args.getOne<String>(ByteItems.ID_ARG).get()
 
@@ -24,7 +21,6 @@ internal class SaveCommand(
         if (!saveItemStack(id, itemStack.createSnapshot())) throw CommandException("ID '$id' is already in use!".toText())
 
         player.sendMessage("Saved ItemStack '$id'!".green())
-        updateCommands()
 
         return CommandResult.success()
     }

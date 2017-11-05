@@ -10,17 +10,13 @@ import org.spongepowered.api.command.CommandResult
 import org.spongepowered.api.command.args.CommandContext
 import org.spongepowered.api.entity.living.player.Player
 
-class DeleteCommand(
-        val deleteItemStack: (id: String) -> Boolean,
-        val updateCommands: () -> Unit
-) : PlayerExecutedCommand() {
+class DeleteCommand(val deleteItemStack: (id: String) -> Boolean) : PlayerExecutedCommand() {
     override fun executedByPlayer(player: Player, args: CommandContext): CommandResult {
         val id = args.getOne<String>(ByteItems.ID_ARG).get()
 
         if (!deleteItemStack(id)) throw CommandException("Item '$id' is not available!".toText())
 
         player.sendMessage("Deleted '$id'!".green())
-        updateCommands()
         player.executeCommand("byteItems list")
 
         return CommandResult.success()
