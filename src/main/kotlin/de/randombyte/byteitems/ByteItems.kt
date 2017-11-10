@@ -19,6 +19,7 @@ import org.spongepowered.api.event.Listener
 import org.spongepowered.api.event.cause.Cause
 import org.spongepowered.api.event.game.GameReloadEvent
 import org.spongepowered.api.event.game.state.GameInitializationEvent
+import org.spongepowered.api.event.game.state.GamePostInitializationEvent
 import org.spongepowered.api.plugin.Plugin
 
 @Plugin(id = ByteItems.ID, name = ByteItems.NAME, version = ByteItems.VERSION, authors = arrayOf(ByteItems.AUTHOR))
@@ -30,7 +31,7 @@ class ByteItems @Inject constructor(
     internal companion object {
         const val ID = "byte-items"
         const val NAME = "ByteItems"
-        const val VERSION = "0.2"
+        const val VERSION = "1.0"
         const val AUTHOR = "RandomByte"
 
         const val ROOT_PERMISSION = "byteItems"
@@ -55,6 +56,12 @@ class ByteItems @Inject constructor(
     }
 
     @Listener
+    fun onPostInit(event: GamePostInitializationEvent) {
+        val apiImpl = ByteItemsApiImpl(getConfig = { config })
+        Sponge.getServiceManager().setProvider(this, ByteItemsApi::class.java, apiImpl)
+    }
+
+    @Listener
     fun onReload(event: GameReloadEvent) {
         loadConfig()
         registerCommands()
@@ -72,7 +79,7 @@ class ByteItems @Inject constructor(
                         .arguments(string(ID_ARG.toText()))
                         .executor(SaveCommand(saveItemStack = { id, itemStackSnapshot ->
                             if (config.items.containsKey(id)) return@SaveCommand false
-                            config = with(config) { copy(items + (id to itemStackSnapshot)) }
+                            config = with(config) { copy(items = items + (id to itemStackSnapshot)) }
                             saveConfig()
                             registerCommands()
                             true
@@ -93,7 +100,7 @@ class ByteItems @Inject constructor(
                         .executor(DeleteCommand(
                                 deleteItemStack = { id ->
                                     if (!config.items.containsKey(id)) return@DeleteCommand false
-                                    config = with(config) { copy(items - id) }
+                                    config = with(config) { copy(items = items - id) }
                                     saveConfig()
                                     registerCommands()
                                     true
