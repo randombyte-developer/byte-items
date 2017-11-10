@@ -6,7 +6,7 @@ plugins {
 }
 
 group "de.randombyte"
-version "1.0.3"
+version "1.0.4"
 
 repositories {
     jcenter()
@@ -38,3 +38,9 @@ shadowJar {
     classifier = null // Remove '-all' suffix from output file name
 }
 build.dependsOn shadowJar
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
