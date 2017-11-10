@@ -4,6 +4,7 @@ import org.spongepowered.api.item.inventory.ItemStackSnapshot
 
 interface ByteItemsApi {
     fun getItem(id: String): ItemStackSnapshot?
-    fun getItemSafely(id: String, failMessage: String = "The byte-item '$id' could not be found!") =
-            getItem(id) ?: throw IllegalArgumentException(failMessage)
+    // I would rather use @JvmOverloads but that is not supported for abstract functions
+    fun getItemSafely(id: String) = getItemSafely(id, failMessage = "The byte-item '$id' could not be found!")
+    fun getItemSafely(id: String, failMessage: String) = getItem(id) ?: throw IllegalArgumentException(failMessage)
 }
