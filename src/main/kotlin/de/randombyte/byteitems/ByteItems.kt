@@ -18,8 +18,7 @@ import org.spongepowered.api.config.DefaultConfig
 import org.spongepowered.api.event.Listener
 import org.spongepowered.api.event.cause.Cause
 import org.spongepowered.api.event.game.GameReloadEvent
-import org.spongepowered.api.event.game.state.GameInitializationEvent
-import org.spongepowered.api.event.game.state.GamePostInitializationEvent
+import org.spongepowered.api.event.game.state.GamePreInitializationEvent
 import org.spongepowered.api.plugin.Plugin
 
 @Plugin(id = ByteItems.ID, name = ByteItems.NAME, version = ByteItems.VERSION, authors = arrayOf(ByteItems.AUTHOR))
@@ -31,7 +30,7 @@ class ByteItems @Inject constructor(
     internal companion object {
         const val ID = "byte-items"
         const val NAME = "ByteItems"
-        const val VERSION = "1.0"
+        const val VERSION = "1.0.1"
         const val AUTHOR = "RandomByte"
 
         const val ROOT_PERMISSION = "byteItems"
@@ -49,16 +48,11 @@ class ByteItems @Inject constructor(
     private lateinit var config: Config
 
     @Listener
-    fun onInit(event: GameInitializationEvent) {
+    fun onPreInit(event: GamePreInitializationEvent) {
         loadConfig()
         registerCommands()
+        registerService()
         logger.info("$NAME loaded: $VERSION")
-    }
-
-    @Listener
-    fun onPostInit(event: GamePostInitializationEvent) {
-        val apiImpl = ByteItemsApiImpl(getConfig = { config })
-        Sponge.getServiceManager().setProvider(this, ByteItemsApi::class.java, apiImpl)
     }
 
     @Listener
@@ -66,6 +60,11 @@ class ByteItems @Inject constructor(
         loadConfig()
         registerCommands()
         logger.info("Reloaded!")
+    }
+
+    private fun registerService() {
+        val apiImpl = ByteItemsApiImpl(getConfig = { config })
+        Sponge.getServiceManager().setProvider(this, ByteItemsApi::class.java, apiImpl)
     }
 
     private fun registerCommands() {
