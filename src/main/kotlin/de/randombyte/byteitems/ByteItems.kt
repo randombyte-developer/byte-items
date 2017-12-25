@@ -68,7 +68,7 @@ class ByteItems @Inject constructor(
     }
 
     private fun registerCommands() {
-        Sponge.getCommandManager().run { getOwnedBy(this).forEach { removeMapping(it) } }
+        Sponge.getCommandManager().run { getOwnedBy(this@ByteItems).forEach { removeMapping(it) } }
 
         val itemChoices = config.items.map { it.key to it.toPair() }.toMap()
 
