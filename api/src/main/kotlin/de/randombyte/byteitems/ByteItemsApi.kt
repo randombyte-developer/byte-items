@@ -31,5 +31,5 @@ interface ByteItemsApi {
         ItemStack.of(itemType, 1).createSnapshot()
     }
 
-    fun getByteItemsPrefix() = ByteItems.ID
+    fun getByteItemsPrefix() = "byte-items"
 }
