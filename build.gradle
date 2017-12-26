@@ -1,6 +1,6 @@
 plugins {
-    id "org.jetbrains.kotlin.jvm" version "1.2.10"
-    id "org.jetbrains.kotlin.kapt" version "1.2.10"
+    id "org.jetbrains.kotlin.jvm" version "1.1.1"
+    id "org.jetbrains.kotlin.kapt" version "1.1.1"
     id "com.qixalite.spongestart2" version "3.0.1"
     id "com.github.johnrengelman.shadow" version "1.2.4"
 }
@@ -8,12 +8,10 @@ plugins {
 group "de.randombyte"
 version "1.0.5"
 
-allprojects {
-    repositories {
-        jcenter()
-        maven { url "https://repo.spongepowered.org/maven/" }
-        maven { url "https://jitpack.io" }
-    }
+repositories {
+    jcenter()
+    maven { url "https://repo.spongepowered.org/maven/" }
+    maven { url "https://jitpack.io" }
 }
 
 configurations {
@@ -22,11 +20,8 @@ configurations {
 }
 
 dependencies {
-    shadow "org.jetbrains.kotlin:kotlin-stdlib-jre8:1.2.10"
+    shadow "org.jetbrains.kotlin:kotlin-stdlib-jre8:1.1.1"
     kapt "org.spongepowered:spongeapi:5.1.0"
-    shadow(project("api")) {
-        transitive = false
-    }
     shadow("com.github.randombyte-developer.kosp:kosp:v0.5.4.1") { transitive = false }
 }
 
