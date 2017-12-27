@@ -20,7 +20,7 @@ import org.spongepowered.api.event.game.GameReloadEvent
 import org.spongepowered.api.event.game.state.GamePreInitializationEvent
 import org.spongepowered.api.plugin.Plugin
 
-@Plugin(id = ByteItems.ID, name = ByteItems.NAME, version = ByteItems.VERSION, authors = arrayOf(ByteItems.AUTHOR))
+@Plugin(id = ByteItems.ID, name = ByteItems.NAME, version = ByteItems.VERSION, authors = [(ByteItems.AUTHOR)])
 class ByteItems @Inject constructor(
         @DefaultConfig(sharedRoot = true) configurationLoader: ConfigurationLoader<CommentedConfigurationNode>,
         val logger: Logger,

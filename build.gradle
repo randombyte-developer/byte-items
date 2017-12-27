@@ -15,11 +15,12 @@ repositories {
 
 configurations {
     compile.extendsFrom shadow
-    compile.extendsFrom kapt
+    //compile.extendsFrom kapt
 }
 
 dependencies {
     shadow "org.jetbrains.kotlin:kotlin-stdlib-jre8:1.2.10"
+    compile "org.spongepowered:spongeapi:7.0.0-SNAPSHOT"
     kapt "org.spongepowered:spongeapi:7.0.0-SNAPSHOT"
     shadow("com.github.randombyte-developer.kosp:kosp:v1.0") { transitive = false }
 }
