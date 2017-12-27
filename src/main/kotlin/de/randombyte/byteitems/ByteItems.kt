@@ -16,7 +16,6 @@ import org.spongepowered.api.command.args.GenericArguments.*
 import org.spongepowered.api.command.spec.CommandSpec
 import org.spongepowered.api.config.DefaultConfig
 import org.spongepowered.api.event.Listener
-import org.spongepowered.api.event.cause.Cause
 import org.spongepowered.api.event.game.GameReloadEvent
 import org.spongepowered.api.event.game.state.GamePreInitializationEvent
 import org.spongepowered.api.plugin.Plugin
@@ -30,7 +29,7 @@ class ByteItems @Inject constructor(
     internal companion object {
         const val ID = "byte-items"
         const val NAME = "ByteItems"
-        const val VERSION = "1.0.5"
+        const val VERSION = "2.0"
         const val AUTHOR = "RandomByte"
 
         const val ROOT_PERMISSION = "byteItems"
@@ -87,7 +86,7 @@ class ByteItems @Inject constructor(
                 .child(CommandSpec.builder()
                         .permission("$ROOT_PERMISSION.give")
                         .arguments(playerOrSource(PLAYER_ARG.toText()), choices(ID_ARG.toText(), itemChoices))
-                        .executor(GiveCommand(cause = Cause.source(this).build()))
+                        .executor(GiveCommand())
                         .build(), "give")
                 .child(CommandSpec.builder()
                         .permission("$ROOT_PERMISSION.list")
