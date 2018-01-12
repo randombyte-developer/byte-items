@@ -17,7 +17,7 @@ import org.spongepowered.api.command.spec.CommandSpec
 import org.spongepowered.api.config.DefaultConfig
 import org.spongepowered.api.event.Listener
 import org.spongepowered.api.event.game.GameReloadEvent
-import org.spongepowered.api.event.game.state.GamePreInitializationEvent
+import org.spongepowered.api.event.game.state.GameInitializationEvent
 import org.spongepowered.api.plugin.Plugin
 
 @Plugin(id = ByteItems.ID, name = ByteItems.NAME, version = ByteItems.VERSION, authors = [(ByteItems.AUTHOR)])
@@ -29,7 +29,7 @@ class ByteItems @Inject constructor(
     internal companion object {
         const val ID = "byte-items"
         const val NAME = "ByteItems"
-        const val VERSION = "2.0"
+        const val VERSION = "2.0.5"
         const val AUTHOR = "RandomByte"
 
         const val ROOT_PERMISSION = "byteItems"
@@ -47,7 +47,7 @@ class ByteItems @Inject constructor(
     private lateinit var config: Config
 
     @Listener
-    fun onPreInit(event: GamePreInitializationEvent) {
+    fun onPreInit(event: GameInitializationEvent) {
         loadConfig()
         registerCommands()
         registerService()
