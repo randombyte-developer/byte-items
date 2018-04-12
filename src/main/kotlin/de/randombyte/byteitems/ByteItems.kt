@@ -5,11 +5,11 @@ import de.randombyte.byteitems.commands.DeleteCommand
 import de.randombyte.byteitems.commands.GiveCommand
 import de.randombyte.byteitems.commands.ListCommand
 import de.randombyte.byteitems.commands.SaveCommand
-import de.randombyte.kosp.bstats.BStats
 import de.randombyte.kosp.config.ConfigManager
 import de.randombyte.kosp.extensions.toText
 import ninja.leaping.configurate.commented.CommentedConfigurationNode
 import ninja.leaping.configurate.loader.ConfigurationLoader
+import org.bstats.sponge.Metrics
 import org.slf4j.Logger
 import org.spongepowered.api.Sponge
 import org.spongepowered.api.command.args.GenericArguments.*
@@ -24,12 +24,12 @@ import org.spongepowered.api.plugin.Plugin
 class ByteItems @Inject constructor(
         @DefaultConfig(sharedRoot = true) configurationLoader: ConfigurationLoader<CommentedConfigurationNode>,
         val logger: Logger,
-        val bStats: BStats
+        val bStats: Metrics
 ) {
     internal companion object {
         const val ID = "byte-items"
         const val NAME = "ByteItems"
-        const val VERSION = "2.0.5"
+        const val VERSION = "2.1"
         const val AUTHOR = "RandomByte"
 
         const val ROOT_PERMISSION = "byteItems"
@@ -75,12 +75,13 @@ class ByteItems @Inject constructor(
                 .child(CommandSpec.builder()
                         .permission("$ROOT_PERMISSION.save")
                         .arguments(string(ID_ARG.toText()))
-                        .executor(SaveCommand(saveItemStack = { id, itemStackSnapshot ->
-                            if (config.items.containsKey(id)) return@SaveCommand false
-                            config = with(config) { copy(items = items + (id to itemStackSnapshot)) }
-                            saveConfig()
-                            registerCommands()
-                            true
+                        .executor(SaveCommand(
+                                saveItemStack = { id, itemStackSnapshot ->
+                                    if (config.items.containsKey(id)) return@SaveCommand false
+                                    config = with(config) { copy(items = items + (id to itemStackSnapshot)) }
+                                    saveConfig()
+                                    registerCommands()
+                                    return@SaveCommand true
                         }))
                         .build(), "save")
                 .child(CommandSpec.builder()
@@ -104,7 +105,7 @@ class ByteItems @Inject constructor(
                                     true
                                 }))
                         .build(), "delete")
-                .build(), "byteItems", "bi")
+                .build(), "byteitems", "bi")
     }
 
     private fun loadConfig() {
