@@ -1,8 +1,22 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2"
+        }
+    }
+    dependencies {
+        classpath "gradle.plugin.flavor.pie:promptsign:1.0.2"
+    }
+}
+
 plugins {
     id "org.jetbrains.kotlin.jvm" version "1.2.10"
     id "org.jetbrains.kotlin.kapt" version "1.2.10"
     id "com.github.johnrengelman.shadow" version "1.2.4"
-    id "flavor.pie.promptsign" version "1.0.2"
+}
+
+if (System.getenv("JITPACK") == null) {
+    apply plugin: "flavor.pie.promptsign"
 }
 
 group "de.randombyte"
@@ -34,11 +48,9 @@ shadowJar {
     relocate "de.randombyte.kosp", "de.randombyte.byteitems.shaded.kosp"
     relocate "org.bstats", "de.randombyte.byteitems.shaded.bstats"
 
-    classifier = null // Remove '-all' suffix from output file name
+    classifier = null // Remove "-all" suffix from output file name
 }
 build.dependsOn shadowJar
-
-signArchives.setOnlyIf { System.env.DISPLAY != null }
 
 compileKotlin {
     kotlinOptions {
