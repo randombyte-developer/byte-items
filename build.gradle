@@ -20,7 +20,7 @@ if (System.getenv("JITPACK") == null) {
 }
 
 group "de.randombyte"
-version "2.1"
+version "2.2"
 
 repositories {
     jcenter()
