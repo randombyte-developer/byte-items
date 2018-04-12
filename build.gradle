@@ -51,6 +51,7 @@ shadowJar {
     classifier = null // Remove "-all" suffix from output file name
 }
 build.dependsOn shadowJar
+signArchives.dependsOn shadowJar
 
 compileKotlin {
     kotlinOptions {
