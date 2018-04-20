@@ -29,13 +29,14 @@ class ByteItems @Inject constructor(
     internal companion object {
         const val ID = "byte-items"
         const val NAME = "ByteItems"
-        const val VERSION = "2.2"
+        const val VERSION = "2.2.5"
         const val AUTHOR = "RandomByte"
 
         const val ROOT_PERMISSION = "byteItems"
 
         const val ID_ARG = "id"
         const val PLAYER_ARG = "player"
+        const val AMOUNT_ARG = "amount"
     }
 
     private val configManager = ConfigManager(
@@ -86,7 +87,7 @@ class ByteItems @Inject constructor(
                         .build(), "save")
                 .child(CommandSpec.builder()
                         .permission("$ROOT_PERMISSION.give")
-                        .arguments(playerOrSource(PLAYER_ARG.toText()), choices(ID_ARG.toText(), itemChoices))
+                        .arguments(playerOrSource(PLAYER_ARG.toText()), choices(ID_ARG.toText(), itemChoices), optional(integer(AMOUNT_ARG.toText())))
                         .executor(GiveCommand())
                         .build(), "give")
                 .child(CommandSpec.builder()
