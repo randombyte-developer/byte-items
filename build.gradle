@@ -15,12 +15,14 @@ plugins {
     id "com.github.johnrengelman.shadow" version "1.2.4"
 }
 
-if (System.getenv("JITPACK") == null) {
+def isJitpack = System.getenv("JITPACK") != null
+
+if (!isJitpack) {
     apply plugin: "flavor.pie.promptsign"
 }
 
 group "de.randombyte"
-version "2.2.5"
+version "2.2.6"
 
 repositories {
     jcenter()
@@ -51,7 +53,9 @@ shadowJar {
     classifier = null // Remove "-all" suffix from output file name
 }
 build.dependsOn shadowJar
-signArchives.dependsOn shadowJar
+if (!isJitpack) {
+    signArchives.dependsOn shadowJar
+}
 
 compileKotlin {
     kotlinOptions {
