@@ -10,7 +10,7 @@ buildscript {
 }
 
 plugins {
-    id 'maven'
+    id "maven"
     id "org.jetbrains.kotlin.jvm" version "1.2.10"
     id "org.jetbrains.kotlin.kapt" version "1.2.10"
     id "com.github.johnrengelman.shadow" version "1.2.4"
@@ -23,14 +23,18 @@ if (!isJitpack) {
 }
 
 group "de.randombyte"
-version "2.2.6"
+version "2.3"
 
-repositories {
-    jcenter()
-    maven { url "https://repo.spongepowered.org/maven/" }
-    maven { url "http://repo.bstats.org/content/repositories/releases" }
-    maven { url "https://jitpack.io" }
+allprojects {
+    repositories {
+        jcenter()
+        maven { url "https://repo.spongepowered.org/maven/" }
+        maven { url "https://repo.codemc.org/repository/maven-public" }
+        maven { url "https://jitpack.io" }
+    }
 }
+
+ext.spongeApiVersion = "7.1.0"
 
 configurations {
     compile.extendsFrom shadow
@@ -39,9 +43,10 @@ configurations {
 
 dependencies {
     shadow "org.jetbrains.kotlin:kotlin-stdlib-jre8:1.2.10"
-    kapt "org.spongepowered:spongeapi:7.0.0"
-    shadow("com.github.randombyte-developer.kosp:kosp:v1.1") { transitive = false }
-    shadow "org.bstats:bstats-sponge:1.2"
+    kapt "org.spongepowered:spongeapi:$spongeApiVersion"
+    shadow("com.github.randombyte-developer.kosp:kosp:v2.2.3") { transitive = false }
+    shadow "org.bstats:bstats-sponge:1.4"
+    shadow(project("api")) { transitive = false }
 }
 
 shadowJar {
@@ -49,7 +54,6 @@ shadowJar {
 
     relocate "kotlin", "de.randombyte.byteitems.shaded.kotlin"
     relocate "de.randombyte.kosp", "de.randombyte.byteitems.shaded.kosp"
-    relocate "org.bstats", "de.randombyte.byteitems.shaded.bstats"
 
     classifier = null // Remove "-all" suffix from output file name
 }

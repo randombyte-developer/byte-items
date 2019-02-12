@@ -5,6 +5,7 @@ import org.spongepowered.api.item.ItemType
 import org.spongepowered.api.item.inventory.ItemStack
 import org.spongepowered.api.item.inventory.ItemStackSnapshot
 
+@Deprecated("Use the new ByteItemsService instead.")
 interface ByteItemsApi {
     /**
      * Returns the ItemStackSnapshot saved under the given [id].

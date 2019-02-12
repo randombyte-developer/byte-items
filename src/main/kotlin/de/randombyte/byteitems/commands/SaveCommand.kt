@@ -9,17 +9,21 @@ import org.spongepowered.api.command.CommandResult
 import org.spongepowered.api.command.args.CommandContext
 import org.spongepowered.api.data.type.HandTypes
 import org.spongepowered.api.entity.living.player.Player
-import org.spongepowered.api.item.inventory.ItemStackSnapshot
 
-internal class SaveCommand(val saveItemStack: (id: String, ItemStackSnapshot) -> Boolean) : PlayerExecutedCommand() {
+internal class SaveCommand : PlayerExecutedCommand() {
     override fun executedByPlayer(player: Player, args: CommandContext): CommandResult {
-        val id = args.getOne<String>(ByteItems.ID_ARG).get()
+        val id = args.getOne<String>(ByteItems.ITEM_ID_ARG).get()
 
         val itemStack = player.getItemInHand(HandTypes.MAIN_HAND)
-                .orElseThrow { CommandException("Hold the ItemStack in your main hand while saving!".toText()) }
+                .orElseThrow { CommandException("Hold the item in your main hand while saving!".toText()) }
 
-        if (!saveItemStack(id, itemStack.createSnapshot())) throw CommandException("ID '$id' is already in use!".toText())
+        val itemsConfigHolder = ByteItems.INSTANCE.configAccessor.items
+        val itemsConfig =  itemsConfigHolder.get()
 
+        if (itemsConfig.items.containsKey(id)) throw CommandException("ID '$id' is already in use!".toText())
+        val newItemsConfig = with(itemsConfig) { copy(items = items + (id to itemStack.createSnapshot())) }
+
+        itemsConfigHolder.save(newItemsConfig)
         player.sendMessage("Saved ItemStack '$id'!".green())
 
         return CommandResult.success()

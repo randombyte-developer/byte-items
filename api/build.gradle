@@ -1,0 +1,22 @@
+plugins {
+    id "java"
+}
+
+group "de.randombyte"
+version "1.0.0"
+
+sourceCompatibility = 1.8
+
+dependencies {
+    compile "org.spongepowered:spongeapi:$spongeApiVersion"
+}
+
+// Produces the source-jar for JitPack
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = "sources"
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives sourcesJar
+}
