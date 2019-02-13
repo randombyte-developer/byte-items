@@ -40,7 +40,7 @@ class ByteItems @Inject constructor(
     internal companion object {
         const val ID = "byte-items"
         const val NAME = "ByteItems"
-        const val VERSION = "2.3"
+        const val VERSION = "2.3.1"
         const val AUTHOR = "RandomByte"
 
         const val ROOT_PERMISSION = "byteItems"
