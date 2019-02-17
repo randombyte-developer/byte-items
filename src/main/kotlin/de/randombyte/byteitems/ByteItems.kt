@@ -18,7 +18,6 @@ import org.spongepowered.api.Sponge
 import org.spongepowered.api.command.args.GenericArguments.*
 import org.spongepowered.api.command.spec.CommandSpec
 import org.spongepowered.api.config.ConfigDir
-import org.spongepowered.api.config.DefaultConfig
 import org.spongepowered.api.entity.living.player.Player
 import org.spongepowered.api.event.Listener
 import org.spongepowered.api.event.game.GameReloadEvent
@@ -32,7 +31,6 @@ import java.util.concurrent.TimeUnit
 
 @Plugin(id = ByteItems.ID, name = ByteItems.NAME, version = ByteItems.VERSION, authors = [(ByteItems.AUTHOR)])
 class ByteItems @Inject constructor(
-        @DefaultConfig(sharedRoot = true) oldConfigFile: Path,
         @ConfigDir(sharedRoot = false) configPath: Path,
         val logger: Logger,
         val bStats: Metrics2
