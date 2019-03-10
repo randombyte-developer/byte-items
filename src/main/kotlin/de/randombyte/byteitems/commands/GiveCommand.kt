@@ -16,6 +16,7 @@ class GiveCommand : CommandExecutor {
         val targetPlayer = args.getOne<Player>(ByteItems.PLAYER_ARG).get()
         val itemId = args.getOne<String>(ByteItems.ITEM_ID_ARG).get()
         val amount = args.getOne<Int>(ByteItems.AMOUNT_ARG).orNull()
+        val silentFlag = args.hasAny(ByteItems.SILENT_FLAG)
 
         val itemStack = ByteItemsService::class.getServiceOrFail().get(itemId).orElseThrow {
             CommandException(Messages.itemNotAvailable(itemId).toText())
@@ -26,7 +27,7 @@ class GiveCommand : CommandExecutor {
         }
 
         targetPlayer.give(itemStack)
-        targetPlayer.sendMessage("Given '$itemId' to ${targetPlayer.name}!".green())
+        if (!silentFlag) targetPlayer.sendMessage("Given '$itemId' to ${targetPlayer.name}!".green())
 
         return CommandResult.success()
     }

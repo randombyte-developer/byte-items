@@ -38,7 +38,7 @@ class ByteItems @Inject constructor(
     internal companion object {
         const val ID = "byte-items"
         const val NAME = "ByteItems"
-        const val VERSION = "2.3.1"
+        const val VERSION = "2.4"
         const val AUTHOR = "RandomByte"
 
         const val ROOT_PERMISSION = "byteItems"
@@ -46,6 +46,7 @@ class ByteItems @Inject constructor(
         const val ITEM_ID_ARG = "item"
         const val PLAYER_ARG = "player"
         const val AMOUNT_ARG = "amount"
+        const val SILENT_FLAG = "-silent"
 
         private val _INSTANCE = lazy { Sponge.getPluginManager().getPlugin(ID).get().instance.get() as ByteItems }
         val INSTANCE: ByteItems get() = _INSTANCE.value
@@ -106,7 +107,9 @@ class ByteItems @Inject constructor(
                         .arguments(
                                 playerOrSource(PLAYER_ARG.toText()),
                                 ByteItemsIdCommandArgument(ITEM_ID_ARG.toText()),
-                                optional(integer(AMOUNT_ARG.toText())))
+                                optional(integer(AMOUNT_ARG.toText())),
+                                flags().flag(SILENT_FLAG).buildWith(none())
+                        )
                         .executor(GiveCommand())
                         .build(), "give")
                 .child(CommandSpec.builder()
