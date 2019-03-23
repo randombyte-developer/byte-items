@@ -23,7 +23,7 @@ if (!isJitpack) {
 }
 
 group "de.randombyte"
-version "2.4"
+version "2.4.1"
 
 allprojects {
     repositories {
